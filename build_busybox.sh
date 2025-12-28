@@ -88,12 +88,12 @@ fi
 docker run --rm \
     -v $(pwd):/host \
     busybox-builder \
-    bash -c "cp -r /host/busybox-1.36.0 /build && \
-            cd /build/busybox-1.36.0 && \
+    bash -c "cd /host/busybox-1.36.0 && \
             make defconfig && \
             sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config && \
             make -j\$(nproc) && make install && \
             mkdir -p _install/{bin,sbin,etc,proc,sys,dev,usr/bin,usr/sbin,lib,lib64} && \
+            cp -r _install /build && cd /build/ && \
             cd _install && \
             cp /host/res/init . && \
             cp /host/res/inittab ./etc && \
