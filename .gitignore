@@ -5,3 +5,7 @@ Dockerfile*
 initramfs.cpio.gz
 .DS_Store
 services/out
+
+drivers/*
+!drivers/hello_driver.c
+!drivers/Makefile

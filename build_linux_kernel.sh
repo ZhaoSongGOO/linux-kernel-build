@@ -54,7 +54,6 @@ if [ ! -d "linux-6.1" ]; then
     wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.tar.xz && tar -xf linux-6.1.tar.xz && rm linux-6.1.tar.xz
 fi
 
-exit 0
 
 docker run --rm \
     -v $(pwd):/host \
@@ -64,3 +63,11 @@ docker run --rm \
 
 
 echo "linux kernel image in ./linux-6.1/arch/x86_64/boot/bzImage!"
+
+# start build driver
+
+docker run --rm \
+    -v $(pwd):/host \
+    -w /host/drivers \
+    linux-kernel-builder \
+    make

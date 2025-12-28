@@ -5,6 +5,9 @@ mount -t sysfs sysfs /sys
 mount -t devtmpfs devtmpfs /dev
 hostname Sos
 
+echo "Load drivers"
+insmod /lib/modules/hello_driver.ko
+
 echo "Starting system services"
 /bin/hello & 
 

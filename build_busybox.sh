@@ -100,13 +100,14 @@ docker run --rm \
             make defconfig && \
             sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config && \
             make -j\$(nproc) && make install && \
-            mkdir -p _install/{bin,sbin,etc,proc,sys,dev,usr/bin,usr/sbin,lib,lib64,var/log} && \
+            mkdir -p _install/{bin,sbin,etc,proc,sys,dev,usr/bin,usr/sbin,lib/modules,lib64,var/log} && \
             cp -r _install /build && cd /build/ && \
             cd _install && \
             cp /host/res/init . && \
             cp /host/res/inittab ./etc && \
             mkdir -p ./etc/init.d && cp /host/res/init.d/rcS ./etc/init.d && \
             cp /host/services/out/hello ./bin && chmod +x ./bin/hello && \
+            cp /host/drivers/hello_driver.ko ./lib/modules && \
             chmod +x ./init && \
             chmod +x ./etc/init.d/rcS && \
             mknod ./dev/console c 5 1 && \
