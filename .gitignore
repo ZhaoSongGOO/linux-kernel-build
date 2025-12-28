@@ -4,3 +4,4 @@ rootfs
 Dockerfile*
 initramfs.cpio.gz
 .DS_Store
+services/out
