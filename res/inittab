@@ -1,3 +1,3 @@
-::sysinit:/etc/init.d/rcs
+::sysinit:/etc/init.d/rcS
 ::askfirst:-/bin/sh
 ::ctrlaltdel:/sbin/reboot
