@@ -62,7 +62,7 @@ docker run --rm \
     bash -c "make defconfig && make -j\$(nproc)"
 
 
-echo "linux kernel image in ./linux-6.1/arch/x86_64/boot/bzImage!"
+echo "linux kernel image in ./linux-6.1/arch/x86/boot/bzImage!"
 
 # start build driver
 

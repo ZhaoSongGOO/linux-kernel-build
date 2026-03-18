@@ -24,5 +24,5 @@ qemu-system-x86_64 \
     -m 1024 \
     -kernel linux-6.1/arch/x86/boot/bzImage\
     -initrd initramfs.cpio.gz \
-    -append "console=ttyS0 root=/dev/ram rdinit=/init" \
+    -append "console=ttyS0 rdinit=/init" \
     -nographic
