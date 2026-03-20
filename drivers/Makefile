@@ -1,6 +1,6 @@
 obj-m += hello_driver.o
 # KDIR 指向你编译内核时的源码目录
-KDIR := /host/linux-6.1
+KDIR := /host/linux-6.19.8
 
 all:
 	make -C $(KDIR) M=/host/drivers modules

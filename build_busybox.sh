@@ -11,80 +11,19 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
-# Step2. edit dockerfile
+# Step2. build docker image
 
-cat > Dockerfile.busybox << 'EOF'
-FROM ubuntu:22.04
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-ENV HTTPS_PROXY=http://host.docker.internal:7897 
-ENV HTTP_PROXY=http://host.docker.internal:7897 
-ENV ALL_PROXY=socks5://host.docker.internal:7897 
-
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    bzip2 \
-    wget \
-    cpio \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /build
-
-EOF
-
-echo "[Okay] Dockerfile.busybox build successfully!"
-
-# Step3. build docker image
-
-docker build -f Dockerfile.busybox -t busybox-builder .
 
 # Step4. download busybox source code
 
+echo "=== check busybox(v1.36.0) source code ==="
 if [ ! -d "busybox-1.36.0" ]; then
     echo "download busybox(v1.36.0) source code"
     wget https://busybox.net/downloads/busybox-1.36.0.tar.bz2 && tar -xf busybox-1.36.0.tar.bz2 && rm busybox-1.36.0.tar.bz2
 fi
 
-# Step5. build busybox
-
-# echo "=== build rootfs ==="
-# mkdir -p rootfs/{bin,sbin,etc,proc,sys,dev,usr/bin,usr/sbin,lib,lib64}
-
-# cp -r busybox-1.36.0/_install/* rootfs/
-
-# cat > rootfs/init << 'EOF'
-# #!/bin/sh
-# echo "Starting custom Linux system..."
-
-# mount -t proc proc /proc
-# mount -t sysfs sysfs /sys
-# mount -t devtmpfs devtmpfs /dev
-# export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-# exec /bin/sh
-# EOF
-
-# chmod +x rootfs/init
-
-# mkdir -p rootfs/etc/init.d
-# cat > rootfs/etc/inittab << 'EOF'
-# ::sysinit:/etc/init.d/rcs
-# ::askfirst:-/bin/sh
-# ::ctrlaltdel:/sbin/reboot
-# EOF
-
-# cat > rootfs/etc/init.d/rcS << 'EOF'
-# #!/bin/sh
-# echo "Running system initialization..."
-# mount -t proc proc /proc
-# mount -t sysfs sysfs /sys
-# mount -t devtmpfs devtmpfs /dev
-# hostname Sos
-# echo "Initialization complete."
-# EOF
-
-# chmod +x rootfs/etc/init.d/rcS
-
+echo "=== build system services  ==="
 # build system services
 docker run --rm \
     -v $(pwd):/host \
@@ -93,6 +32,7 @@ docker run --rm \
             make"
 
 
+echo "=== build busybox and fs ==="
 docker run --rm \
     -v $(pwd):/host \
     busybox-builder \

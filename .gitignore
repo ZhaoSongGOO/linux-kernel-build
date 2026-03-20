@@ -1,10 +1,10 @@
 linux-6.1
 busybox-1.36.0
 rootfs
-Dockerfile*
 initramfs.cpio.gz
 .DS_Store
 services/out
+linux-*
 
 drivers/*
 !drivers/hello_driver.c

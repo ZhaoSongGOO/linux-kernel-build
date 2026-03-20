@@ -35,7 +35,11 @@ static int __init my_init(void) {
     if (retval < 0) return retval;
 
     // 2. 创建设备类 (在 /sys/class/ 下可见)
-    my_class = class_create(THIS_MODULE, CLASS_NAME);
+// #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 4, 0)
+    my_class = class_create(CLASS_NAME);
+// #else
+//     my_class = class_create(THIS_MODULE, CLASS_NAME);
+// #endif
     if (IS_ERR(my_class)) {
         unregister_chrdev(MAJOR_NUM, DEVICE_NAME);
         return PTR_ERR(my_class);
